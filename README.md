@@ -5,9 +5,293 @@
 ![Maven](https://img.shields.io/badge/Maven-3.8+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-Quick Boot 是一个基于 **Java 17 + Spring Boot 3** 的企业级后端快速开发脚手架，面向中后台系统、SaaS 管理平台、业务管理系统和微服务基础模块的快速搭建场景。
+English | [中文](#quick-boot-中文)
 
-本项目基于开源项目 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 进行精简、整理和二次封装，保留了后端工程中常用的基础能力，并对项目结构、模块边界和 starter 组件进行调整，目标是沉淀一套更轻量、更适合作为后端基础脚手架的 Spring Boot 3 工程模板。
+Quick Boot is a lightweight enterprise backend scaffolding project based on **Java 17 + Spring Boot 3**. It is designed for admin systems, SaaS platforms, business management systems, API services, and reusable backend infrastructure modules.
+
+This project is refined from [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro). Quick Boot keeps common backend foundations, adjusts module boundaries, simplifies the project structure, and focuses on becoming a lighter Spring Boot 3 backend template.
+
+Thanks to the `ruoyi-vue-pro` project and its community for their open-source contributions.
+
+## Goals
+
+Quick Boot is not intended to be a large all-in-one business platform. Its goal is to provide a clean, extensible, and maintainable Spring Boot backend foundation.
+
+It is suitable for:
+
+* Starting Java backend projects quickly
+* Building enterprise admin APIs
+* Reusing common backend infrastructure modules
+* Learning and extending Spring Boot 3 projects
+* Building platforms with security, tenant isolation, logs, scheduled jobs, monitoring, and infrastructure features
+
+## Origin And Credits
+
+Quick Boot is based on [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro), with simplification and secondary development.
+
+`ruoyi-vue-pro` is a mature open-source rapid development platform with authentication, system management, infrastructure, workflow, mall, CRM, ERP, MES, AI, IoT, and many other enterprise features. Quick Boot trims and reorganizes those foundations, mainly keeping backend scaffolding, framework components, system management, and infrastructure modules.
+
+Quick Boot will preserve the required open-source credits and follow the original project's license requirements where applicable.
+
+## Features
+
+* **Spring Boot 3 + Java 17**: Modern Java backend stack
+* **Multi-module project structure**: Clear separation between dependency management, framework components, business modules, and server entrypoint
+* **Centralized dependency management**: Managed through `quick-dependencies`
+* **Reusable starter components**: Common backend capabilities are packaged as starter modules
+* **MyBatis Plus integration**: Simplifies database access and CRUD development
+* **Redis integration**: Supports caching and distributed capabilities
+* **Druid connection pool**: Provides SQL monitoring and slow SQL tracking
+* **Security foundation**: Provides backend authentication and permission foundations
+* **WebSocket support**: Useful for notifications and real-time messaging
+* **Monitoring support**: Integrates Actuator and Spring Boot Admin
+* **Scheduled jobs**: Integrates Quartz for job scheduling
+* **Message queue extension points**: Supports RabbitMQ, Kafka, RocketMQ extension scenarios
+* **Excel utilities**: Supports common import and export use cases
+* **Tenant and data permission foundations**: Suitable for SaaS and enterprise permission isolation
+
+## Tech Stack
+
+| Category | Technology |
+| --- | --- |
+| Language | Java 17 |
+| Core framework | Spring Boot 3 |
+| ORM | MyBatis Plus |
+| Database | MySQL |
+| Cache | Redis |
+| Connection pool | Druid |
+| Scheduler | Quartz |
+| Message queue | RabbitMQ / Kafka / RocketMQ |
+| Monitoring | Spring Boot Actuator / Spring Boot Admin |
+| Build tool | Maven |
+
+## Project Structure
+
+```text
+quick-boot
+├── quick-dependencies
+│   └── Centralized dependency management
+│
+├── quick-framework
+│   └── Framework components and reusable starter modules
+│       ├── quick-common
+│       ├── quick-spring-boot-starter-mybatis
+│       ├── quick-spring-boot-starter-redis
+│       ├── quick-spring-boot-starter-web
+│       ├── quick-spring-boot-starter-security
+│       ├── quick-spring-boot-starter-websocket
+│       ├── quick-spring-boot-starter-monitor
+│       ├── quick-spring-boot-starter-protection
+│       ├── quick-spring-boot-starter-job
+│       ├── quick-spring-boot-starter-mq
+│       ├── quick-spring-boot-starter-excel
+│       ├── quick-spring-boot-starter-biz-tenant
+│       ├── quick-spring-boot-starter-biz-data-permission
+│       └── quick-spring-boot-starter-biz-ip
+│
+├── quick-module-system
+│   └── System management module
+│
+├── quick-module-infra
+│   └── Infrastructure module
+│
+├── quick-server
+│   └── Backend service entrypoint
+│
+└── sql
+    └── Database initialization scripts
+```
+
+## Quick Start
+
+### Requirements
+
+* JDK 17+
+* Maven 3.8+
+* MySQL 8.0+
+* Redis 6.0+
+
+### 1. Clone
+
+```bash
+git clone https://github.com/Enter2O25/quick-boot.git
+cd quick-boot
+```
+
+### 2. Initialize Database
+
+Create a database:
+
+```sql
+CREATE DATABASE quick_boot DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Import the SQL scripts under:
+
+```text
+sql/mysql/
+```
+
+### 3. Configure Local Environment
+
+Recommended configuration files:
+
+```text
+application.yaml
+application-local.example.yaml
+application-local.yaml
+```
+
+* `application.yaml`: Shared configuration committed to the repository
+* `application-local.example.yaml`: Public local configuration template
+* `application-local.yaml`: Private local configuration for database, Redis, and third-party secrets
+
+Copy the example file before local development:
+
+```bash
+cp quick-server/src/main/resources/application-local.example.yaml \
+  quick-server/src/main/resources/application-local.yaml
+```
+
+Then update local database and Redis settings:
+
+```yaml
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/quick_boot?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
+          username: ${MYSQL_USERNAME:root}
+          password: ${MYSQL_PASSWORD:}
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      password: ${REDIS_PASSWORD:}
+```
+
+Do not commit real database passwords, Redis passwords, API keys, tokens, or third-party platform secrets.
+
+### 4. Run
+
+Run from your IDE:
+
+```text
+quick-server/src/main/java/com/liujl/quick/server/QuickServerApplication.java
+```
+
+Or run with Maven:
+
+```bash
+mvn clean install -DskipTests
+cd quick-server
+mvn spring-boot:run
+```
+
+Default port:
+
+```text
+48080
+```
+
+Visit:
+
+```text
+http://localhost:48080
+```
+
+## Open Source Maintenance
+
+Quick Boot is prepared as a long-term open-source project:
+
+* GitHub Actions CI is enabled
+* `CONTRIBUTING.md` documents contribution workflow
+* `SECURITY.md` documents security reporting and secret handling
+* `CHANGELOG.md` tracks important changes
+* Public configuration files use environment variable placeholders
+* `application-local.yaml` is ignored and should remain private
+
+## Roadmap
+
+Planned improvements:
+
+* Improve README and module documentation
+* Add Docker Compose for one-command local infrastructure setup
+* Add API documentation and sample endpoints
+* Add unit and integration tests
+* Improve GitHub Actions checks
+* Add starter usage examples
+* Document permission, tenant, and data permission modules
+* Improve release notes and changelog workflow
+* Provide frontend-backend integration examples
+
+## AI-Assisted Maintenance Plan
+
+Quick Boot plans to use AI-assisted tooling for:
+
+* Generating and improving unit tests
+* Reviewing Pull Requests
+* Refactoring framework and starter modules
+* Detecting security and configuration risks
+* Improving README, module docs, and usage examples
+* Generating changelogs and release notes
+* Maintaining issues, TODOs, and technical debt
+* Improving readability, testability, and maintainability
+
+## Contribution Areas
+
+Contributions are welcome in the following areas:
+
+* Bug fixes
+* Documentation improvements
+* Test coverage
+* Starter design improvements
+* Docker / CI / release automation
+* Local development experience
+* More business module examples
+* Simplifying unnecessary modules and historical code
+* Spring Boot 3 compatibility and stability improvements
+
+## Commit Convention
+
+Recommended commit format:
+
+```text
+feat: add new feature
+fix: fix issue
+docs: update documentation
+style: adjust code style
+refactor: refactor code
+test: add or update tests
+chore: update build, dependency, or tooling
+```
+
+Examples:
+
+```text
+feat: add redis starter example
+fix: resolve quartz initialization error
+docs: update quick start guide
+```
+
+## License
+
+This project is licensed under the MIT License.
+
+This project is refined from [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro). Thanks to the original authors and community.
+
+---
+
+# Quick Boot 中文
+
+[English](#quick-boot) | 中文
+
+Quick Boot 是一个基于 **Java 17 + Spring Boot 3** 的企业级后端快速开发脚手架，面向中后台系统、SaaS 管理平台、业务管理系统、API 服务和可复用后端基础模块的快速搭建场景。
+
+本项目基于开源项目 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 进行精简、整理和二次封装，保留后端工程中常用的基础能力，并对项目结构、模块边界和 starter 组件进行调整，目标是沉淀一套更轻量、更适合作为后端基础脚手架的 Spring Boot 3 工程模板。
 
 感谢 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 项目及其社区的开源贡献。
 
@@ -27,9 +311,9 @@ Quick Boot 的目标不是做一个“大而全”的业务系统，而是提供
 
 Quick Boot 基于 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 进行精简和二次开发。
 
-`ruoyi-vue-pro` 是一个优秀的国产开源快速开发平台，提供权限认证、系统管理、基础设施、工作流、商城、CRM、ERP、MES、AI、IoT 等大量企业级功能。Quick Boot 在此基础上进行了裁剪和整理，主要保留后端脚手架、框架组件、系统管理、基础设施等核心能力，用于构建更轻量的 Java 后端快速开发模板。
+`ruoyi-vue-pro` 是一个成熟的开源快速开发平台，提供权限认证、系统管理、基础设施、工作流、商城、CRM、ERP、MES、AI、IoT 等大量企业级功能。Quick Boot 在此基础上进行了裁剪和整理，主要保留后端脚手架、框架组件、系统管理、基础设施等核心能力，用于构建更轻量的 Java 后端快速开发模板。
 
-本项目会尽量保留原项目的开源说明与致谢，并遵循原项目的开源协议要求。感谢原作者和社区对 Java 开源生态的贡献。
+本项目会尽量保留原项目的开源说明与致谢，并遵循原项目的开源协议要求。
 
 ## 核心特性
 
@@ -44,24 +328,24 @@ Quick Boot 基于 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro
 * **WebSocket 支持**：适用于消息推送、实时通知等场景
 * **监控能力**：集成 Actuator、Spring Boot Admin 等监控基础能力
 * **定时任务支持**：集成 Quartz，支持任务调度场景
-* **消息队列扩展**：预留 RabbitMQ、Kafka、RocketMQ 等消息队列能力
+* **消息队列扩展**：支持 RabbitMQ、Kafka、RocketMQ 等扩展场景
 * **Excel 工具能力**：支持常见导入导出场景
 * **多租户与数据权限**：适合 SaaS 系统和企业级权限隔离场景
 
 ## 技术栈
 
-| 分类   | 技术                                       |
-| ---- | ---------------------------------------- |
-| 语言   | Java 17                                  |
-| 核心框架 | Spring Boot 3                            |
-| ORM  | MyBatis Plus                             |
-| 数据库  | MySQL                                    |
-| 缓存   | Redis                                    |
-| 连接池  | Druid                                    |
-| 任务调度 | Quartz                                   |
-| 消息队列 | RabbitMQ / Kafka / RocketMQ              |
-| 监控   | Spring Boot Actuator / Spring Boot Admin |
-| 构建工具 | Maven                                    |
+| 分类 | 技术 |
+| --- | --- |
+| 语言 | Java 17 |
+| 核心框架 | Spring Boot 3 |
+| ORM | MyBatis Plus |
+| 数据库 | MySQL |
+| 缓存 | Redis |
+| 连接池 | Druid |
+| 任务调度 | Quartz |
+| 消息队列 | RabbitMQ / Kafka / RocketMQ |
+| 监控 | Spring Boot Actuator / Spring Boot Admin |
+| 构建工具 | Maven |
 
 ## 项目结构
 
@@ -104,8 +388,6 @@ quick-boot
 
 ### 环境要求
 
-请先准备以下环境：
-
 * JDK 17+
 * Maven 3.8+
 * MySQL 8.0+
@@ -120,18 +402,13 @@ cd quick-boot
 
 ### 2. 初始化数据库
 
-创建数据库，例如：
+创建数据库：
 
 ```sql
 CREATE DATABASE quick_boot DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-然后导入 SQL 脚本：
-
-```text
-sql/mysql/quick.sql
-sql/mysql/quartz.sql
-```
+导入 `sql/mysql/` 目录下的 SQL 脚本。
 
 ### 3. 修改本地配置
 
@@ -149,13 +426,14 @@ application-local.yaml
 * `application-local.example.yaml`：提交到仓库，作为本地配置模板
 * `application-local.yaml`：本地开发配置，保存数据库、Redis、第三方平台密钥等信息
 
-本地开发时，复制或修改配置文件：
+复制本地配置模板：
 
-```text
-quick-server/src/main/resources/application-local.yaml
+```bash
+cp quick-server/src/main/resources/application-local.example.yaml \
+  quick-server/src/main/resources/application-local.yaml
 ```
 
-重点修改以下配置：
+重点修改数据库和 Redis 配置：
 
 ```yaml
 spring:
@@ -175,7 +453,7 @@ spring:
       password: ${REDIS_PASSWORD:}
 ```
 
-> 不建议将真实数据库密码、Redis 密码、第三方平台密钥提交到公开仓库。建议使用环境变量、本地私有配置文件或 `application-local.example.yaml` 管理敏感信息。
+不要将真实数据库密码、Redis 密码、API Key、Token 或第三方平台密钥提交到公开仓库。
 
 ### 4. 启动项目
 
@@ -199,60 +477,33 @@ mvn spring-boot:run
 48080
 ```
 
-启动后可以访问：
+访问地址：
 
 ```text
 http://localhost:48080
-```
-
-## 本地开发建议
-
-建议在 `.gitignore` 中加入：
-
-```gitignore
-application-local.yaml
-.env
-*.log
-logs/
-target/
-.idea/
-.DS_Store
-```
-
-仓库已经提供本地配置示例：
-
-```text
-quick-server/src/main/resources/application-local.example.yaml
-```
-
-示例配置中建议只保留占位符，不放真实账号、密码和第三方平台密钥。
-
-如果之前已经将 `application-local.yaml` 提交到仓库，请先将它从 Git 跟踪中移除，并立即轮换其中出现过的真实密钥：
-
-```bash
-git rm --cached quick-server/src/main/resources/application-local.yaml
 ```
 
 ## 开源维护准备度
 
 为了让项目更适合作为公开开源项目长期维护，本仓库约定：
 
-* 通过 GitHub Actions 执行 Maven 编译检查
+* 通过 GitHub Actions 执行 CI 检查
 * 通过 `CONTRIBUTING.md` 说明贡献流程
 * 通过 `SECURITY.md` 说明安全问题报告方式
 * 通过 `CHANGELOG.md` 记录版本变化
-* 公开配置只保留环境变量占位符，不提交真实密钥
+* 公开配置只保留环境变量占位符
+* `application-local.yaml` 只用于本地开发，不提交到仓库
 
 ## 开发计划
 
 后续计划持续完善以下内容：
 
-* 完善 README 和开发文档
+* 完善 README 和模块文档
 * 增加 Docker Compose 一键启动环境
 * 增加接口文档和示例接口
 * 增加单元测试和集成测试
-* 增加 GitHub Actions CI 检查
-* 优化 starter 模块的使用示例
+* 优化 GitHub Actions 检查
+* 补充 starter 模块的使用示例
 * 补充权限、多租户、数据权限等模块的使用说明
 * 增加版本发布说明和 Changelog
 * 提供前后端联调示例
@@ -269,8 +520,6 @@ git rm --cached quick-server/src/main/resources/application-local.yaml
 * 生成 Changelog 和 Release Notes
 * 辅助维护 Issue、TODO 和技术债务
 * 提升项目的可读性、可测试性和可维护性
-
-Quick Boot 是一个长期维护的 Java 后端脚手架项目，希望通过 AI 辅助提升开源维护效率，让项目更容易被其他 Java 开发者理解、使用和贡献。
 
 ## 适合贡献的方向
 
