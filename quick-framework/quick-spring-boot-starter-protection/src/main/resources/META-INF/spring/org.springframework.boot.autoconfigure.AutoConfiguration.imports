@@ -1,0 +1,4 @@
+com.liujl.quick.framework.idempotent.config.QuickIdempotentConfiguration
+com.liujl.quick.framework.lock4j.config.QuickLock4jConfiguration
+com.liujl.quick.framework.ratelimiter.config.QuickRateLimiterConfiguration
+com.liujl.quick.framework.signature.config.QuickApiSignatureAutoConfiguration

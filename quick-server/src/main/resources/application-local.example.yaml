@@ -1,0 +1,43 @@
+server:
+  port: 48080
+
+--- #################### 本地数据库与缓存 ####################
+
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/quick_boot?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          username: ${MYSQL_USERNAME:root}
+          password: ${MYSQL_PASSWORD:}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      password: ${REDIS_PASSWORD:}
+
+--- #################### 本地开发开关 ####################
+
+spring:
+  quartz:
+    auto-startup: false
+
+quick:
+  captcha:
+    enable: false
+  security:
+    mock-enable: true
+  access-log:
+    enable: false
+
+--- #################### 第三方密钥占位 ####################
+
+wx:
+  mp:
+    app-id: ${WX_MP_APP_ID:}
+    secret: ${WX_MP_SECRET:}
+  miniapp:
+    appid: ${WX_MINIAPP_APP_ID:}
+    secret: ${WX_MINIAPP_SECRET:}

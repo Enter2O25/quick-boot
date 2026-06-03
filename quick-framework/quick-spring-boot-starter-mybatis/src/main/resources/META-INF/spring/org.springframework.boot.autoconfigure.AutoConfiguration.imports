@@ -1,0 +1,3 @@
+com.liujl.quick.framework.datasource.config.QuickDataSourceAutoConfiguration
+com.liujl.quick.framework.mybatis.config.QuickMybatisAutoConfiguration
+com.liujl.quick.framework.translate.config.QuickTranslateAutoConfiguration

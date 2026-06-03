@@ -1,0 +1,7 @@
+com.liujl.quick.framework.apilog.config.QuickApiLogAutoConfiguration
+com.liujl.quick.framework.jackson.config.QuickJacksonAutoConfiguration
+com.liujl.quick.framework.swagger.config.QuickSwaggerAutoConfiguration
+com.liujl.quick.framework.web.config.QuickWebAutoConfiguration
+com.liujl.quick.framework.xss.config.QuickXssAutoConfiguration
+com.liujl.quick.framework.banner.config.QuickBannerAutoConfiguration
+com.liujl.quick.framework.encrypt.config.QuickApiEncryptAutoConfiguration

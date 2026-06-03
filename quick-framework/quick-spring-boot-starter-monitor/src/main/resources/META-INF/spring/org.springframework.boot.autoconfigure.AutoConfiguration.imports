@@ -1,0 +1,2 @@
+com.liujl.quick.framework.tracer.config.QuickTracerAutoConfiguration
+com.liujl.quick.framework.tracer.config.QuickMetricsAutoConfiguration

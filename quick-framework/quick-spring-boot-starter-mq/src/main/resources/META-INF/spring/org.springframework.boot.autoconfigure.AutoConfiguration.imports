@@ -1,0 +1,3 @@
+com.liujl.quick.framework.mq.redis.config.QuickRedisMQProducerAutoConfiguration
+com.liujl.quick.framework.mq.redis.config.QuickRedisMQConsumerAutoConfiguration
+com.liujl.quick.framework.mq.rabbitmq.config.QuickRabbitMQAutoConfiguration

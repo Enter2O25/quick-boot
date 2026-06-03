@@ -1,0 +1,2 @@
+com.liujl.quick.framework.redis.config.QuickRedisAutoConfiguration
+com.liujl.quick.framework.redis.config.QuickCacheAutoConfiguration

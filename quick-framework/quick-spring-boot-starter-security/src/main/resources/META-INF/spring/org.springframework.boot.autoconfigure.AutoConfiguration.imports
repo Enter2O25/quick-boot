@@ -1,0 +1,3 @@
+com.liujl.quick.framework.security.config.QuickSecurityAutoConfiguration
+com.liujl.quick.framework.security.config.QuickWebSecurityConfigurerAdapter
+com.liujl.quick.framework.operatelog.config.QuickOperateLogConfiguration

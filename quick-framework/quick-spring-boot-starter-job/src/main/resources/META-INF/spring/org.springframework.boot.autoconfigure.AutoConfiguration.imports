@@ -1,0 +1,2 @@
+com.liujl.quick.framework.quartz.config.QuickQuartzAutoConfiguration
+com.liujl.quick.framework.quartz.config.QuickAsyncAutoConfiguration
