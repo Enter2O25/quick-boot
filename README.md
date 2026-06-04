@@ -31,6 +31,8 @@ Quick Boot is based on [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vu
 
 `ruoyi-vue-pro` is a mature open-source rapid development platform with authentication, system management, infrastructure, workflow, mall, CRM, ERP, MES, AI, IoT, and many other enterprise features. Quick Boot trims and reorganizes those foundations, mainly keeping backend scaffolding, framework components, system management, and infrastructure modules.
 
+For detailed positioning, module differences, and recommended scenarios, see [Quick Boot 与 ruoyi-vue-pro 的差异说明](docs/quick-boot-vs-ruoyi-vue-pro.md).
+
 Quick Boot will preserve the required open-source credits and follow the original project's license requirements where applicable.
 
 ## Features
@@ -312,6 +314,8 @@ Quick Boot 的目标不是做一个“大而全”的业务系统，而是提供
 Quick Boot 基于 [YunaiV/ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 进行精简和二次开发。
 
 `ruoyi-vue-pro` 是一个成熟的开源快速开发平台，提供权限认证、系统管理、基础设施、工作流、商城、CRM、ERP、MES、AI、IoT 等大量企业级功能。Quick Boot 在此基础上进行了裁剪和整理，主要保留后端脚手架、框架组件、系统管理、基础设施等核心能力，用于构建更轻量的 Java 后端快速开发模板。
+
+更详细的定位、模块差异和适用场景，请阅读 [Quick Boot 与 ruoyi-vue-pro 的差异说明](docs/quick-boot-vs-ruoyi-vue-pro.md)。
 
 本项目会尽量保留原项目的开源说明与致谢，并遵循原项目的开源协议要求。
 
