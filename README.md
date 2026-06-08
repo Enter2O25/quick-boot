@@ -112,6 +112,7 @@ quick-boot
 * Maven 3.8+
 * MySQL 8.0+
 * Redis 6.0+
+* Docker Compose 2.x (optional, for local infrastructure)
 
 ### 1. Clone
 
@@ -120,7 +121,36 @@ git clone https://github.com/Enter2O25/quick-boot.git
 cd quick-boot
 ```
 
-### 2. Initialize Database
+### 2. Start Local Infrastructure With Docker Compose
+
+You can start MySQL and Redis with Docker Compose:
+
+```bash
+cp .env.example .env
+docker compose up -d mysql redis
+```
+
+The MySQL container creates the `quick_boot` database and imports `sql/mysql/dev-scaffolding.sql` on the first startup. If you need to rerun the initialization script, remove the named volume first:
+
+```bash
+docker compose down -v
+docker compose up -d mysql redis
+```
+
+Check service status:
+
+```bash
+docker compose ps
+```
+
+Default local connection values:
+
+| Service | Host | Port | Database / Password |
+| --- | --- | --- | --- |
+| MySQL | `127.0.0.1` | `3306` | database `quick_boot`, root password `quick_boot_dev` |
+| Redis | `127.0.0.1` | `6379` | no password |
+
+### 3. Initialize Database Manually
 
 Create a database:
 
@@ -134,7 +164,9 @@ Import the SQL scripts under:
 sql/mysql/
 ```
 
-### 3. Configure Local Environment
+Skip this manual step if you already used Docker Compose and the MySQL volume was empty on first startup.
+
+### 4. Configure Local Environment
 
 Recommended configuration files:
 
@@ -163,21 +195,21 @@ spring:
     dynamic:
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/quick_boot?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
+          url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:quick_boot}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
           username: ${MYSQL_USERNAME:root}
           password: ${MYSQL_PASSWORD:}
 
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
-      database: 0
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
       password: ${REDIS_PASSWORD:}
 ```
 
 Do not commit real database passwords, Redis passwords, API keys, tokens, or third-party platform secrets.
 
-### 4. Run
+### 5. Run
 
 Run from your IDE:
 
@@ -396,6 +428,7 @@ quick-boot
 * Maven 3.8+
 * MySQL 8.0+
 * Redis 6.0+
+* Docker Compose 2.x（可选，用于本地基础设施）
 
 ### 1. 克隆项目
 
@@ -404,7 +437,36 @@ git clone https://github.com/Enter2O25/quick-boot.git
 cd quick-boot
 ```
 
-### 2. 初始化数据库
+### 2. 使用 Docker Compose 启动本地基础设施
+
+可以使用 Docker Compose 启动 MySQL 和 Redis：
+
+```bash
+cp .env.example .env
+docker compose up -d mysql redis
+```
+
+MySQL 容器会在首次启动时创建 `quick_boot` 数据库，并导入 `sql/mysql/dev-scaffolding.sql`。如果需要重新执行初始化脚本，先删除命名数据卷：
+
+```bash
+docker compose down -v
+docker compose up -d mysql redis
+```
+
+查看服务状态：
+
+```bash
+docker compose ps
+```
+
+默认本地连接信息：
+
+| 服务 | 地址 | 端口 | 数据库 / 密码 |
+| --- | --- | --- | --- |
+| MySQL | `127.0.0.1` | `3306` | 数据库 `quick_boot`，root 密码 `quick_boot_dev` |
+| Redis | `127.0.0.1` | `6379` | 无密码 |
+
+### 3. 手动初始化数据库
 
 创建数据库：
 
@@ -414,7 +476,9 @@ CREATE DATABASE quick_boot DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode
 
 导入 `sql/mysql/` 目录下的 SQL 脚本。
 
-### 3. 修改本地配置
+如果已经使用 Docker Compose，并且 MySQL 数据卷在首次启动时为空，可以跳过本手动步骤。
+
+### 4. 修改本地配置
 
 建议使用如下配置方式：
 
@@ -445,21 +509,21 @@ spring:
     dynamic:
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/quick_boot?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
+          url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:quick_boot}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
           username: ${MYSQL_USERNAME:root}
           password: ${MYSQL_PASSWORD:}
 
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
-      database: 0
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
       password: ${REDIS_PASSWORD:}
 ```
 
 不要将真实数据库密码、Redis 密码、API Key、Token 或第三方平台密钥提交到公开仓库。
 
-### 4. 启动项目
+### 5. 启动项目
 
 使用 IDE 启动：
 

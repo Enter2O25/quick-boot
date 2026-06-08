@@ -11,6 +11,7 @@
 - 增加 `SECURITY.md`，说明安全问题报告方式和配置安全约定。
 - 增加 `application-local.example.yaml`，作为本地开发配置模板。
 - 增加 Quick Boot 与 ruoyi-vue-pro 的差异说明，补充项目定位、模块取舍和适用场景。
+- 增加 Docker Compose 本地 MySQL、Redis 启动环境，并提供 `.env.example` 示例配置。
 
 ### Changed
 

@@ -8,7 +8,7 @@ spring:
     dynamic:
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/quick_boot?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:quick_boot}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
           username: ${MYSQL_USERNAME:root}
           password: ${MYSQL_PASSWORD:}
   data:

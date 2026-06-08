@@ -52,6 +52,7 @@ application-my.yaml
 application-local.yaml
 .env
 .env.*
+!.env.example
 
 /quick-ui-app/unpackage/
 **/.DS_Store
