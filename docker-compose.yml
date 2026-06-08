@@ -1,0 +1,44 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: quick-boot-mysql
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: ${QUICK_BOOT_MYSQL_DATABASE:-quick_boot}
+      MYSQL_ROOT_PASSWORD: ${QUICK_BOOT_MYSQL_ROOT_PASSWORD:-quick_boot_dev}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+    ports:
+      - "${QUICK_BOOT_MYSQL_PORT:-3306}:3306"
+    volumes:
+      - quick-boot-mysql:/var/lib/mysql
+      - ./sql/mysql/dev-scaffolding.sql:/docker-entrypoint-initdb.d/01-dev-scaffolding.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: quick-boot-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${QUICK_BOOT_REDIS_PORT:-6379}:6379"
+    volumes:
+      - quick-boot-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  quick-boot-mysql:
+  quick-boot-redis:
